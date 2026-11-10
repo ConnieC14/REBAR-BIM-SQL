@@ -1,0 +1,25 @@
+# Agentic search retrieval: the orchestrator explores the schema with tools and names the tables.
+# Baseline pipeline on the Snowdon Towers BIM model (SQLite, converted from VIM),
+# Claude Haiku 5.5 (paid; total project budget $20).
+name: bim_agentic_search_haiku
+pipeline: baseline
+retrieval: agentic_search                       # search / describe / join-path tools
+database: db/vim_samples/Snowdon.r2027.db       # opened read-only
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db         # planted prompt injections (safety_bim)
+chroma_path: ./chroma_db_snowdon                # separate vector store per database
+llm:
+  provider: anthropic
+  model: claude-haiku-5-5
+  effort: null                    # model default (medium on Haiku 5.5)
+embeddings: local
+metadata_source: files                          # original P03 annotation files, as written
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites: [bim_snowdon, safety_bim]
+budget_usd: 2.50                 # hard stop per run; raised for 10 steps (6-step runs cost $0.53-0.89)
+judge: null

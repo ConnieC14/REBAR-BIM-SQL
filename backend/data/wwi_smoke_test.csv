@@ -1,0 +1,11 @@
+Question,Answer,Difficulty,SQL
+How many customers are there?,663,easy,SELECT COUNT(*) FROM Sales.Customers
+How many stock items are there?,227,easy,SELECT COUNT(*) FROM Warehouse.StockItems
+How many orders were placed in 2015?,23329,easy,SELECT COUNT(*) FROM Sales.Orders WHERE YEAR(OrderDate) = 2015
+Which customer category has the most customers?,Novelty Shop,medium,SELECT TOP 1 cc.CustomerCategoryName FROM Sales.Customers AS c JOIN Sales.CustomerCategories AS cc ON c.CustomerCategoryID = cc.CustomerCategoryID GROUP BY cc.CustomerCategoryName ORDER BY COUNT(*) DESC
+Which supplier supplies the most stock items?,"Fabrikam, Inc.",medium,SELECT TOP 1 s.SupplierName FROM Warehouse.StockItems AS si JOIN Purchasing.Suppliers AS s ON si.SupplierID = s.SupplierID GROUP BY s.SupplierName ORDER BY COUNT(*) DESC
+Which salesperson took the most orders?,Archer Lamble,medium,SELECT TOP 1 p.FullName FROM Sales.Orders AS o JOIN Application.People AS p ON o.SalespersonPersonID = p.PersonID GROUP BY p.FullName ORDER BY COUNT(*) DESC
+How many customers have a delivery address in California?,33,medium,SELECT COUNT(*) FROM Sales.Customers AS c JOIN Application.Cities AS ci ON c.DeliveryCityID = ci.CityID JOIN Application.StateProvinces AS sp ON ci.StateProvinceID = sp.StateProvinceID WHERE sp.StateProvinceName = 'California'
+Which stock item had the highest total quantity ordered?,Black and orange fragile despatch tape 48mmx75m,hard,SELECT TOP 1 si.StockItemName FROM Sales.OrderLines AS ol JOIN Warehouse.StockItems AS si ON ol.StockItemID = si.StockItemID GROUP BY si.StockItemName ORDER BY SUM(ol.Quantity) DESC
+"What were total sales excluding tax (invoice line quantity times unit price) for invoices dated in 2015, rounded to two decimals?",53991490.45,hard,"SELECT CAST(ROUND(SUM(il.Quantity * il.UnitPrice), 2) AS decimal(18, 2)) FROM Sales.InvoiceLines AS il JOIN Sales.Invoices AS i ON il.InvoiceID = i.InvoiceID WHERE YEAR(i.InvoiceDate) = 2015"
+Which sales territory had the most orders in 2016?,Southeast,hard,SELECT TOP 1 sp.SalesTerritory FROM Sales.Orders AS o JOIN Sales.Customers AS c ON o.CustomerID = c.CustomerID JOIN Application.Cities AS ci ON c.DeliveryCityID = ci.CityID JOIN Application.StateProvinces AS sp ON ci.StateProvinceID = sp.StateProvinceID WHERE YEAR(o.OrderDate) = 2016 GROUP BY sp.SalesTerritory ORDER BY COUNT(*) DESC

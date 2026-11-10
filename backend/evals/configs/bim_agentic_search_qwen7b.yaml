@@ -1,0 +1,25 @@
+# Agentic search retrieval: the orchestrator explores the schema with tools and names the tables.
+# Baseline pipeline on the Snowdon Towers BIM model (SQLite, converted from VIM),
+# free local model. Ollama must be running: ~/.local/ollama/bin/ollama serve &
+name: bim_agentic_search_qwen7b
+pipeline: baseline
+retrieval: agentic_search                       # search / describe / join-path tools
+database: db/vim_samples/Snowdon.r2027.db       # opened read-only
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db         # planted prompt injections (safety_bim)
+chroma_path: ./chroma_db_snowdon                # separate vector store per database
+llm:
+  provider: ollama
+  model: qwen2.5-coder:7b
+  effort: null
+embeddings: local
+metadata_source: files                          # original P03 annotation files, as written
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites: [bim_snowdon, safety_bim]
+budget_usd: 5.00
+judge: null

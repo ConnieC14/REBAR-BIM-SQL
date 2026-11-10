@@ -1,0 +1,20 @@
+# Baseline pipeline on Claude Opus 5.5 (needs ANTHROPIC_API_KEY in .env).
+# Measure the real cost first with:
+#   python -m evals.run --config evals/configs/baseline_claude_opus.yaml --limit 3
+# then set budget_usd from the projected cost the runner prints.
+name: baseline_claude_opus
+pipeline: baseline
+llm:
+  provider: anthropic
+  model: claude-opus-5-5
+  effort: null        # null = model default (medium on Opus 5.5)
+embeddings: local
+metadata_source: db
+limits:
+  max_steps: 6
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 1
+suites: [wwi_dev, safety, extraction]
+budget_usd: 5.00      # hard stop; a full 122-question run likely needs more (see the runner's projection)
+judge: null

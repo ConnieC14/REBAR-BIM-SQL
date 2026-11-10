@@ -1,0 +1,25 @@
+# Agentic values retrieval: agentic_search plus a lookup of stored values (names, numbers, labels).
+# Baseline pipeline on the Snowdon Towers BIM model (SQLite, converted from VIM),
+# free local model. Ollama must be running: ~/.local/ollama/bin/ollama serve &
+name: bim_agentic_values_qwen7b
+pipeline: baseline
+retrieval: agentic_values                       # search / describe / join-path / value-lookup tools
+database: db/vim_samples/Snowdon.r2027.db       # opened read-only
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db         # planted prompt injections (safety_bim)
+chroma_path: ./chroma_db_snowdon                # separate vector store per database
+llm:
+  provider: ollama
+  model: qwen2.5-coder:7b
+  effort: null
+embeddings: local
+metadata_source: files                          # original P03 annotation files, as written
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites: [bim_snowdon, safety_bim]
+budget_usd: 5.00
+judge: null

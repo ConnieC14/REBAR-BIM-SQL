@@ -1,0 +1,168 @@
+Could you please give me a list of materials per element?,"SELECT
+
+  ME.Id AS MaterialElementId,
+
+  ME.Name AS MaterialName,
+
+  MIE.Volume AS MaterialVolume_CubicFeet,
+
+  MIE.Area AS MaterialArea_SquareFeet,
+
+  MIE.IsPaint AS MaterialIsPaint,
+
+  E.Id AS ElementId,
+
+  E.Name AS ElementName
+
+FROM
+
+  [dbo].[MaterialInElement] AS MIE
+
+JOIN [dbo].[Material] as M ON MIE.Material = M._key
+
+JOIN [dbo].[Element] AS E ON MIE.Element = E._key
+
+JOIN [dbo].[Element] AS ME ON M.Element = ME._key
+
+ORDER BY ME.Id;"
+Could you please give me the list of total material volumes in cubic feet and total material areas in square feet?,"SELECT
+
+  ME.Id AS MaterialElementId,
+
+  ME.Name AS MaterialName,
+
+  SUM(MIE.Volume) AS TotalMaterialVolume_CubicFeet,
+
+  SUM(MIE.Area) AS TotalMaterialArea_SquareFeet
+
+FROM
+
+  [dbo].[MaterialInElement] AS MIE
+
+JOIN [dbo].[Material] as M ON MIE.Material = M._key
+
+JOIN [dbo].[Element] AS ME ON M.Element = ME._key
+
+GROUP BY
+
+  ME.Id,
+
+  ME.Name;"
+"Which family instances have a ""Skanska"" parameter?","SELECT
+
+  FamilyInstance_Element.Id AS Element_Id,
+
+  FamilyInstance_Element.Name AS FamilyInstance_Element_Name,
+
+  Category.Name AS Category_Name,
+
+  ParameterDescriptor.Name AS ParameterName,
+
+  FamilyInstance_Element_Parameter.Value AS ParameterValue,
+
+  FamilyInstance_Element_Parameter.DisplayValue AS ParameterDisplayValue
+
+FROM
+
+     [dbo].[FamilyInstance] AS FamilyInstance
+
+JOIN [dbo].[Element] AS FamilyInstance_Element ON FamilyInstance_Element._key = FamilyInstance.Element
+
+JOIN [dbo].[Category] AS Category ON Category._key = FamilyInstance_Element.Category
+
+JOIN [dbo].[Parameter] AS FamilyInstance_Element_Parameter ON FamilyInstance_Element_Parameter.Element = FamilyInstance_Element._key
+
+JOIN [dbo].[ParameterDescriptor] as ParameterDescriptor ON ParameterDescriptor._key = FamilyInstance_Element_Parameter.ParameterDescriptor
+
+WHERE LOWER(ParameterDescriptor.Name) LIKE LOWER('%Skanska%')
+
+ORDER BY Element_Id;"
+Which family instances have a fire rating parameter?,"SELECT
+
+  FamilyInstance_Element.Id AS Element_Id,
+
+  FamilyInstance_Element.Name AS FamilyInstance_Element_Name,
+
+  Category.Name AS Category_Name,
+
+  ParameterDescriptor.Name AS ParameterName,
+
+  FamilyInstance_Element_Parameter.Value AS ParameterValue,
+
+  FamilyInstance_Element_Parameter.DisplayValue AS ParameterDisplayValue
+
+FROM
+
+     [dbo].[FamilyInstance] AS FamilyInstance
+
+JOIN [dbo].[Element] AS FamilyInstance_Element ON FamilyInstance_Element._key = FamilyInstance.Element
+
+JOIN [dbo].[Category] AS Category ON Category._key = FamilyInstance_Element.Category
+
+JOIN [dbo].[Parameter] AS FamilyInstance_Element_Parameter ON FamilyInstance_Element_Parameter.Element = FamilyInstance_Element._key
+
+JOIN [dbo].[ParameterDescriptor] as ParameterDescriptor ON ParameterDescriptor._key = FamilyInstance_Element_Parameter.ParameterDescriptor
+
+WHERE LOWER(ParameterDescriptor.Name) LIKE LOWER('%fire%')
+
+ORDER BY Element_Id;"
+Could you please give me the areas of each wall?,"SELECT
+
+  FamilyInstance_Element.Id AS Element_Id,
+
+  FamilyInstance_Element.Name AS FamilyInstance_Element_Name,
+
+  Category.Name AS Category_Name,
+
+  ParameterDescriptor.Name AS ParameterName,
+
+  FamilyInstance_Element_Parameter.Value AS ParameterValue,
+
+  FamilyInstance_Element_Parameter.DisplayValue AS ParameterDisplayValue
+
+FROM
+
+     [dbo].[FamilyInstance] AS FamilyInstance
+
+JOIN [dbo].[Element] AS FamilyInstance_Element ON FamilyInstance_Element._key = FamilyInstance.Element
+
+JOIN [dbo].[Category] AS Category ON Category._key = FamilyInstance_Element.Category
+
+JOIN [dbo].[Parameter] AS FamilyInstance_Element_Parameter ON FamilyInstance_Element_Parameter.Element = FamilyInstance_Element._key
+
+JOIN [dbo].[ParameterDescriptor] as ParameterDescriptor ON ParameterDescriptor._key = FamilyInstance_Element_Parameter.ParameterDescriptor
+
+WHERE
+
+  LOWER(Category.Name) LIKE LOWER('%wall%') AND
+
+  LOWER(ParameterDescriptor.Name) LIKE LOWER('%area%')
+
+ORDER BY FamilyInstance_Element_Name; "
+"Collects the Element ID, BIM Document, Family Instance, Family Type, Family, Category, Level, and Room information of Family Instances in Rooms whose area is less than 100 square feet","SELECT
+  FamilyInstance_Element.Id AS Element_Id,
+  BimDocument.Title AS BimDocument_Title,
+  FamilyInstance_Element.Name AS FamilyInstance_Element_Name,
+  FamilyType_Element.Name AS FamilyType_Element_Name,
+  Family_Element.Name as Family_Element_Name,
+  Category.Name as Category_Name,
+  Level_Element.Name AS Level_Element_Name,
+  Level.Elevation AS Level_Elevation,
+  Room_Element.Name AS Room_Element_Name,
+  Room.Number AS Room_Number,
+  Room.Area AS Room_Area
+FROM
+     [dbo].[FamilyInstance] AS FamilyInstance
+JOIN [dbo].[Element] AS FamilyInstance_Element ON FamilyInstance_Element._key = FamilyInstance.Element
+JOIN [dbo].[FamilyType] AS FamilyType ON FamilyType._key = FamilyInstance.FamilyType
+JOIN [dbo].[Element] AS FamilyType_Element ON FamilyType_Element._key = FamilyType.Element
+JOIN [dbo].[Family] as Family ON Family._key = FamilyType.Family
+JOIN [dbo].[Element] AS Family_Element ON Family_Element._key = Family.Element
+JOIN [dbo].[Category] AS Category ON Category._key = FamilyInstance_Element.Category
+JOIN [dbo].[BimDocument] AS BimDocument ON BimDocument._key = FamilyInstance_Element.BimDocument
+JOIN [dbo].[Room] AS Room ON Room._key = FamilyInstance_Element.Room
+JOIN [dbo].[Element] as Room_Element ON Room_Element._key = Room.Element
+JOIN [dbo].[Level] AS Level on Level._key = FamilyInstance_Element.Level
+JOIN [dbo].[Element] AS Level_Element on Level_Element._key = Level.Element
+WHERE Room.Area <= 100
+ORDER BY Level.Elevation, Room_Number, Category_Name;"

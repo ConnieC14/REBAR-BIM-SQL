@@ -1,0 +1,1368 @@
+{
+    "schema_info": {
+        "Node": [
+            "_key",
+            "Index",
+            "Element"
+        ],
+        "BasePoint": [
+            "_key",
+            "Index",
+            "IsSurveyPoint",
+            "Position.X",
+            "Position.Y",
+            "Position.Z",
+            "SharedPosition.X",
+            "SharedPosition.Y",
+            "SharedPosition.Z",
+            "Element"
+        ],
+        "Parameter": [
+            "_key",
+            "Index",
+            "Value",
+            "ParameterDescriptor",
+            "Element",
+            "DisplayValue",
+            "Quantity",
+            "Units"
+        ],
+        "DefaultWarnings": [
+            "Id",
+            "Ranking",
+            "IsHidden",
+            "Description",
+            "WarningType",
+            "BuiltInClassName",
+            "BuiltInPropertyName",
+            "WarningCategory",
+            "DescriptionLong"
+        ],
+        "Phase": [
+            "_key",
+            "Index",
+            "Element"
+        ],
+        "Shape": [
+            "_key",
+            "Index",
+            "Element"
+        ],
+        "View": [
+            "_key",
+            "Index",
+            "Title",
+            "ViewType",
+            "Up.X",
+            "Up.Y",
+            "Up.Z",
+            "Right.X",
+            "Right.Y",
+            "Right.Z",
+            "Origin.X",
+            "Origin.Y",
+            "Origin.Z",
+            "ViewDirection.X",
+            "ViewDirection.Y",
+            "ViewDirection.Z",
+            "ViewPosition.X",
+            "ViewPosition.Y",
+            "ViewPosition.Z",
+            "Scale",
+            "Outline.Min.X",
+            "Outline.Min.Y",
+            "Outline.Max.X",
+            "Outline.Max.Y",
+            "DetailLevel",
+            "Camera",
+            "Element",
+            "FamilyType"
+        ],
+        "CategoryPreset": [
+            "_key",
+            "Rank",
+            "Category",
+            "Qualifier",
+            "Session"
+        ],
+        "Room": [
+            "_key",
+            "Index",
+            "BaseOffset",
+            "LimitOffset",
+            "UnboundedHeight",
+            "Volume",
+            "Perimeter",
+            "Area",
+            "Number",
+            "UpperLimit",
+            "Element"
+        ],
+        "Category": [
+            "_key",
+            "Index",
+            "Name",
+            "Id",
+            "CategoryType",
+            "LineColor.X",
+            "LineColor.Y",
+            "LineColor.Z",
+            "BuiltInCategory",
+            "Parent",
+            "Material"
+        ],
+        "CompoundStructureLayer": [
+            "_key",
+            "Index",
+            "OrderIndex",
+            "Width",
+            "MaterialFunctionAssignment",
+            "Material",
+            "CompoundStructure"
+        ],
+        "GeometryNodeJoining": [
+            "Geometry",
+            "Node",
+            "WorldSpace.Box.0.X",
+            "WorldSpace.Box.0.Y",
+            "WorldSpace.Box.0.Z",
+            "WorldSpace.Box.1.X",
+            "WorldSpace.Box.1.Y",
+            "WorldSpace.Box.1.Z",
+            "WorldSpace.Box.2.X",
+            "WorldSpace.Box.2.Y",
+            "WorldSpace.Box.2.Z",
+            "WorldSpace.Box.3.X",
+            "WorldSpace.Box.3.Y",
+            "WorldSpace.Box.3.Z",
+            "WorldSpace.Box.4.X",
+            "WorldSpace.Box.4.Y",
+            "WorldSpace.Box.4.Z",
+            "WorldSpace.Box.5.X",
+            "WorldSpace.Box.5.Y",
+            "WorldSpace.Box.5.Z",
+            "WorldSpace.Box.6.X",
+            "WorldSpace.Box.6.Y",
+            "WorldSpace.Box.6.Z",
+            "WorldSpace.Box.7.X",
+            "WorldSpace.Box.7.Y",
+            "WorldSpace.Box.7.Z"
+        ],
+        "MaterialNodeJoining": [
+            "Material",
+            "Node",
+            "Origin"
+        ],
+        "ParameterElementJoining": [
+            "Parameter",
+            "Element"
+        ],
+        "AssetInView": [
+            "_key",
+            "Index",
+            "Asset",
+            "View"
+        ],
+        "AreaScheme": [
+            "_key",
+            "Index",
+            "IsGrossBuildingArea",
+            "Element"
+        ],
+        "ElementInView": [
+            "_key",
+            "Index",
+            "View",
+            "Element"
+        ],
+        "Grid": [
+            "_key",
+            "Index",
+            "StartPoint.X",
+            "StartPoint.Y",
+            "StartPoint.Z",
+            "EndPoint.X",
+            "EndPoint.Y",
+            "EndPoint.Z",
+            "IsCurved",
+            "Extents.Min.X",
+            "Extents.Min.Y",
+            "Extents.Min.Z",
+            "Extents.Max.X",
+            "Extents.Max.Y",
+            "Extents.Max.Z",
+            "Element",
+            "FamilyType"
+        ],
+        "ShapeInView": [
+            "_key",
+            "Index",
+            "Shape",
+            "View"
+        ],
+        "LevelInView": [
+            "_key",
+            "Index",
+            "Extents.Min.X",
+            "Extents.Min.Y",
+            "Extents.Min.Z",
+            "Extents.Max.X",
+            "Extents.Max.Y",
+            "Extents.Max.Z",
+            "Level",
+            "View"
+        ],
+        "Family": [
+            "_key",
+            "Index",
+            "StructuralMaterialType",
+            "StructuralSectionShape",
+            "IsSystemFamily",
+            "FamilyCategory",
+            "Element",
+            "IsInPlace"
+        ],
+        "PhaseFilter": [
+            "_key",
+            "Index",
+            "New",
+            "Existing",
+            "Demolished",
+            "Temporary",
+            "Element"
+        ],
+        "Area": [
+            "_key",
+            "Index",
+            "Value",
+            "Perimeter",
+            "Number",
+            "IsGrossInterior",
+            "AreaScheme",
+            "Element"
+        ],
+        "BimDocument": [
+            "_key",
+            "Index",
+            "Title",
+            "IsMetric",
+            "Guid",
+            "NumSaves",
+            "IsLinked",
+            "IsDetached",
+            "IsWorkshared",
+            "PathName",
+            "Latitude",
+            "Longitude",
+            "TimeZone",
+            "PlaceName",
+            "WeatherStationName",
+            "Elevation",
+            "ProjectLocation",
+            "IssueDate",
+            "Status",
+            "ClientName",
+            "Address",
+            "Name",
+            "Number",
+            "Author",
+            "BuildingName",
+            "OrganizationName",
+            "OrganizationDescription",
+            "Product",
+            "Version",
+            "User",
+            "ActiveView",
+            "OwnerFamily",
+            "Element",
+            "vim",
+            "Parent"
+        ],
+        "Schedule": [
+            "_key",
+            "Index",
+            "Element"
+        ],
+        "FamilyType": [
+            "_key",
+            "Index",
+            "IsSystemFamilyType",
+            "Family",
+            "CompoundStructure",
+            "Element"
+        ],
+        "ScheduleColumn": [
+            "_key",
+            "Index",
+            "Name",
+            "ColumnIndex",
+            "Schedule"
+        ],
+        "ScheduleCell": [
+            "_key",
+            "Index",
+            "Value",
+            "RowIndex",
+            "ScheduleColumn"
+        ],
+        "DisplayUnitInBimDocument": [
+            "_key",
+            "Index",
+            "DisplayUnit",
+            "BimDocument"
+        ],
+        "PhaseOrderInBimDocument": [
+            "_key",
+            "Index",
+            "OrderIndex",
+            "Phase",
+            "BimDocument"
+        ],
+        "VimDiffSession": [
+            "Id",
+            "Name",
+            "DateTimeCreated",
+            "DateTimeEnded"
+        ],
+        "VimDiff": [
+            "Id",
+            "Element1Key",
+            "Element2Key",
+            "Modification",
+            "Property",
+            "ParameterName",
+            "PreviousValue",
+            "NewValue",
+            "SessionId"
+        ],
+        "FamilyInstance": [
+            "_key",
+            "Index",
+            "FacingFlipped",
+            "FacingOrientation.X",
+            "FacingOrientation.Y",
+            "FacingOrientation.Z",
+            "HandFlipped",
+            "Mirrored",
+            "HasModifiedGeometry",
+            "Scale",
+            "BasisX.X",
+            "BasisX.Y",
+            "BasisX.Z",
+            "BasisY.X",
+            "BasisY.Y",
+            "BasisY.Z",
+            "BasisZ.X",
+            "BasisZ.Y",
+            "BasisZ.Z",
+            "Translation.X",
+            "Translation.Y",
+            "Translation.Z",
+            "HandOrientation.X",
+            "HandOrientation.Y",
+            "HandOrientation.Z",
+            "FamilyType",
+            "Host",
+            "FromRoom",
+            "ToRoom",
+            "Element"
+        ],
+        "ViewSheet": [
+            "_key",
+            "Index",
+            "FamilyType",
+            "Element"
+        ],
+        "ViewSheetSet": [
+            "_key",
+            "Index",
+            "Element"
+        ],
+        "AssetInViewSheet": [
+            "_key",
+            "Index",
+            "Asset",
+            "ViewSheet"
+        ],
+        "ViewInViewSheet": [
+            "_key",
+            "Index",
+            "View",
+            "ViewSheet"
+        ],
+        "ShapeCollection": [
+            "_key",
+            "Index",
+            "Element"
+        ],
+        "__EFMigrationsHistory": [
+            "MigrationId",
+            "ProductVersion"
+        ],
+        "ViewInViewSheetSet": [
+            "_key",
+            "Index",
+            "View",
+            "ViewSheetSet"
+        ],
+        "ShapeInShapeCollection": [
+            "_key",
+            "Index",
+            "Shape",
+            "ShapeCollection"
+        ],
+        "Asset": [
+            "_key",
+            "Index",
+            "BufferName"
+        ],
+        "Camera": [
+            "_key",
+            "Index",
+            "Id",
+            "IsPerspective",
+            "VerticalExtent",
+            "HorizontalExtent",
+            "FarDistance",
+            "NearDistance",
+            "TargetDistance",
+            "RightOffset",
+            "UpOffset"
+        ],
+        "ViewSheetInViewSheetSet": [
+            "_key",
+            "Index",
+            "ViewSheet",
+            "ViewSheetSet"
+        ],
+        "CompoundStructure": [
+            "_key",
+            "Index",
+            "StructuralLayer",
+            "Width"
+        ],
+        "DisplayUnit": [
+            "_key",
+            "Index",
+            "Spec",
+            "Type",
+            "Label"
+        ],
+        "Site": [
+            "_key",
+            "Index",
+            "Latitude",
+            "Longitude",
+            "Address",
+            "Elevation",
+            "Number",
+            "Element"
+        ],
+        "System": [
+            "_key",
+            "Index",
+            "SystemType",
+            "Element",
+            "FamilyType"
+        ],
+        "Geometry": [
+            "_key",
+            "Index",
+            "Box.Min.X",
+            "Box.Min.Y",
+            "Box.Min.Z",
+            "Box.Max.X",
+            "Box.Max.Y",
+            "Box.Max.Z",
+            "VertexCount",
+            "FaceCount"
+        ],
+        "Building": [
+            "_key",
+            "Index",
+            "Elevation",
+            "TerrainElevation",
+            "Address",
+            "Site",
+            "Element"
+        ],
+        "VIM": [
+            "_key",
+            "FileName",
+            "Length",
+            "NodeCount",
+            "MeshCount",
+            "Generator",
+            "Id",
+            "Revision",
+            "FileFormatVersion",
+            "Schema",
+            "CreationDate",
+            "UploadDate",
+            "Metadata",
+            "PersistingId",
+            "Url",
+            "Build"
+        ],
+        "Warning": [
+            "_key",
+            "Index",
+            "Guid",
+            "Severity",
+            "Description",
+            "BimDocument"
+        ],
+        "Workset": [
+            "_key",
+            "Index",
+            "Id",
+            "Name",
+            "Kind",
+            "IsOpen",
+            "IsEditable",
+            "Owner",
+            "UniqueId",
+            "BimDocument"
+        ],
+        "ElementInSystem": [
+            "_key",
+            "Index",
+            "Roles",
+            "System",
+            "Element"
+        ],
+        "ParameterDescriptor": [
+            "_key",
+            "Index",
+            "Name",
+            "Group",
+            "ParameterType",
+            "IsInstance",
+            "IsShared",
+            "IsReadOnly",
+            "DisplayUnit",
+            "Flags",
+            "Guid"
+        ],
+        "Element": [
+            "_key",
+            "Index",
+            "Id",
+            "Type",
+            "Name",
+            "Location.X",
+            "Location.Y",
+            "Location.Z",
+            "FamilyName",
+            "Level",
+            "PhaseCreated",
+            "PhaseDemolished",
+            "Category",
+            "Workset",
+            "DesignOption",
+            "OwnerView",
+            "Group",
+            "AssemblyInstance",
+            "BimDocument",
+            "Room",
+            "IsPinned",
+            "UniqueId"
+        ],
+        "ElementInWarning": [
+            "_key",
+            "Index",
+            "Warning",
+            "Element"
+        ],
+        "AssemblyInstance": [
+            "_key",
+            "Index",
+            "AssemblyTypeName",
+            "Position.X",
+            "Position.Y",
+            "Position.Z",
+            "Element"
+        ],
+        "ClashSession": [
+            "_key",
+            "Id",
+            "BufferDistance",
+            "DateTimeCreated",
+            "DateTimeEnded",
+            "IgnoreIntraCategoryClashes",
+            "IgnoreIntraSystemClashes",
+            "Name"
+        ],
+        "DesignOption": [
+            "_key",
+            "Index",
+            "IsPrimary",
+            "Element"
+        ],
+        "MaterialInElement": [
+            "_key",
+            "Index",
+            "Area",
+            "Volume",
+            "IsPaint",
+            "Material",
+            "Element"
+        ],
+        "Group": [
+            "_key",
+            "Index",
+            "GroupType",
+            "Position.X",
+            "Position.Y",
+            "Position.Z",
+            "Element"
+        ],
+        "Clash": [
+            "_key",
+            "Distance",
+            "Vim1",
+            "Vim2",
+            "Element1",
+            "Element2",
+            "Session",
+            "CategoryPreset1",
+            "CategoryPreset2"
+        ],
+        "Level": [
+            "_key",
+            "Index",
+            "Elevation",
+            "Element",
+            "FamilyType",
+            "Building"
+        ],
+        "Material": [
+            "_key",
+            "Index",
+            "Name",
+            "MaterialCategory",
+            "Color.X",
+            "Color.Y",
+            "Color.Z",
+            "ColorUvScaling.X",
+            "ColorUvScaling.Y",
+            "ColorUvOffset.X",
+            "ColorUvOffset.Y",
+            "NormalUvScaling.X",
+            "NormalUvScaling.Y",
+            "NormalUvOffset.X",
+            "NormalUvOffset.Y",
+            "NormalAmount",
+            "Glossiness",
+            "Smoothness",
+            "Transparency",
+            "ColorTextureFile",
+            "NormalTextureFile",
+            "Element"
+        ]
+    },
+    "foreign_key_relationships": [
+        {
+            "from_table": "Node",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "BasePoint",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Parameter",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Parameter",
+            "from_column": "ParameterDescriptor",
+            "to_table": "ParameterDescriptor",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Phase",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Shape",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "View",
+            "from_column": "Camera",
+            "to_table": "Camera",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "View",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "View",
+            "from_column": "FamilyType",
+            "to_table": "FamilyType",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "CategoryPreset",
+            "from_column": "Session",
+            "to_table": "ClashSession",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Room",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Room",
+            "from_column": "UpperLimit",
+            "to_table": "Level",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Category",
+            "from_column": "Parent",
+            "to_table": "Category",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Category",
+            "from_column": "Material",
+            "to_table": "Material",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "CompoundStructureLayer",
+            "from_column": "CompoundStructure",
+            "to_table": "CompoundStructure",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "CompoundStructureLayer",
+            "from_column": "Material",
+            "to_table": "Material",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "GeometryNodeJoining",
+            "from_column": "Geometry",
+            "to_table": "Geometry",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "GeometryNodeJoining",
+            "from_column": "Node",
+            "to_table": "Node",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "MaterialNodeJoining",
+            "from_column": "Material",
+            "to_table": "Material",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "MaterialNodeJoining",
+            "from_column": "Node",
+            "to_table": "Node",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ParameterElementJoining",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ParameterElementJoining",
+            "from_column": "Parameter",
+            "to_table": "Parameter",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "AssetInView",
+            "from_column": "Asset",
+            "to_table": "Asset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "AssetInView",
+            "from_column": "View",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "AreaScheme",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ElementInView",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ElementInView",
+            "from_column": "View",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Grid",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Grid",
+            "from_column": "FamilyType",
+            "to_table": "FamilyType",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ShapeInView",
+            "from_column": "Shape",
+            "to_table": "Shape",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ShapeInView",
+            "from_column": "View",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "LevelInView",
+            "from_column": "Level",
+            "to_table": "Level",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "LevelInView",
+            "from_column": "View",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Family",
+            "from_column": "FamilyCategory",
+            "to_table": "Category",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Family",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "PhaseFilter",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Area",
+            "from_column": "AreaScheme",
+            "to_table": "AreaScheme",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Area",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "BimDocument",
+            "from_column": "Parent",
+            "to_table": "BimDocument",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "BimDocument",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "BimDocument",
+            "from_column": "OwnerFamily",
+            "to_table": "Family",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "BimDocument",
+            "from_column": "ActiveView",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "BimDocument",
+            "from_column": "vim",
+            "to_table": "VIM",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Schedule",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyType",
+            "from_column": "CompoundStructure",
+            "to_table": "CompoundStructure",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyType",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyType",
+            "from_column": "Family",
+            "to_table": "Family",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ScheduleColumn",
+            "from_column": "Schedule",
+            "to_table": "Schedule",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ScheduleCell",
+            "from_column": "ScheduleColumn",
+            "to_table": "ScheduleColumn",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "DisplayUnitInBimDocument",
+            "from_column": "BimDocument",
+            "to_table": "BimDocument",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "DisplayUnitInBimDocument",
+            "from_column": "DisplayUnit",
+            "to_table": "DisplayUnit",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "PhaseOrderInBimDocument",
+            "from_column": "BimDocument",
+            "to_table": "BimDocument",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "PhaseOrderInBimDocument",
+            "from_column": "Phase",
+            "to_table": "Phase",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "VimDiff",
+            "from_column": "Element1Key",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "VimDiff",
+            "from_column": "Element2Key",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "VimDiff",
+            "from_column": "SessionId",
+            "to_table": "VimDiffSession",
+            "to_column": "Id"
+        },
+        {
+            "from_table": "FamilyInstance",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyInstance",
+            "from_column": "Host",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyInstance",
+            "from_column": "FamilyType",
+            "to_table": "FamilyType",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyInstance",
+            "from_column": "FromRoom",
+            "to_table": "Room",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "FamilyInstance",
+            "from_column": "ToRoom",
+            "to_table": "Room",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewSheet",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewSheet",
+            "from_column": "FamilyType",
+            "to_table": "FamilyType",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewSheetSet",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "AssetInViewSheet",
+            "from_column": "Asset",
+            "to_table": "Asset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "AssetInViewSheet",
+            "from_column": "ViewSheet",
+            "to_table": "ViewSheet",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewInViewSheet",
+            "from_column": "View",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewInViewSheet",
+            "from_column": "ViewSheet",
+            "to_table": "ViewSheet",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ShapeCollection",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewInViewSheetSet",
+            "from_column": "View",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewInViewSheetSet",
+            "from_column": "ViewSheetSet",
+            "to_table": "ViewSheetSet",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ShapeInShapeCollection",
+            "from_column": "Shape",
+            "to_table": "Shape",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ShapeInShapeCollection",
+            "from_column": "ShapeCollection",
+            "to_table": "ShapeCollection",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewSheetInViewSheetSet",
+            "from_column": "ViewSheet",
+            "to_table": "ViewSheet",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ViewSheetInViewSheetSet",
+            "from_column": "ViewSheetSet",
+            "to_table": "ViewSheetSet",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "CompoundStructure",
+            "from_column": "StructuralLayer",
+            "to_table": "CompoundStructureLayer",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Site",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "System",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "System",
+            "from_column": "FamilyType",
+            "to_table": "FamilyType",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Building",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Building",
+            "from_column": "Site",
+            "to_table": "Site",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Warning",
+            "from_column": "BimDocument",
+            "to_table": "BimDocument",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Workset",
+            "from_column": "BimDocument",
+            "to_table": "BimDocument",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ElementInSystem",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ElementInSystem",
+            "from_column": "System",
+            "to_table": "System",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ParameterDescriptor",
+            "from_column": "DisplayUnit",
+            "to_table": "DisplayUnit",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "AssemblyInstance",
+            "to_table": "AssemblyInstance",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "BimDocument",
+            "to_table": "BimDocument",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "Category",
+            "to_table": "Category",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "DesignOption",
+            "to_table": "DesignOption",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "Group",
+            "to_table": "Group",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "Level",
+            "to_table": "Level",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "PhaseCreated",
+            "to_table": "Phase",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "PhaseDemolished",
+            "to_table": "Phase",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "Room",
+            "to_table": "Room",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "OwnerView",
+            "to_table": "View",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Element",
+            "from_column": "Workset",
+            "to_table": "Workset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ElementInWarning",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "ElementInWarning",
+            "from_column": "Warning",
+            "to_table": "Warning",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "AssemblyInstance",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "DesignOption",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "MaterialInElement",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "MaterialInElement",
+            "from_column": "Material",
+            "to_table": "Material",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Group",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "CategoryPreset1",
+            "to_table": "CategoryPreset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "CategoryPreset2",
+            "to_table": "CategoryPreset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "Session",
+            "to_table": "ClashSession",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "Element1",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "Element2",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "Vim1",
+            "to_table": "VIM",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Clash",
+            "from_column": "Vim2",
+            "to_table": "VIM",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Level",
+            "from_column": "Building",
+            "to_table": "Building",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Level",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Level",
+            "from_column": "FamilyType",
+            "to_table": "FamilyType",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Material",
+            "from_column": "ColorTextureFile",
+            "to_table": "Asset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Material",
+            "from_column": "NormalTextureFile",
+            "to_table": "Asset",
+            "to_column": "_key"
+        },
+        {
+            "from_table": "Material",
+            "from_column": "Element",
+            "to_table": "Element",
+            "to_column": "_key"
+        }
+    ]
+}

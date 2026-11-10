@@ -1,0 +1,55 @@
+services:
+  frontend:
+    build: ./frontend
+    image: rebar-bim-sql-frontend:latest
+    ports:
+      - 5173:5173
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/:/app
+      - ./backend/data:/app/backend/data
+      - ./backend/logs:/app/backend/logs
+    image: rebar-bim-sql-backend:latest
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  # Local SQL Server with the WideWorldImporters sample database.
+  # Start with `docker compose up -d mssql`, then run
+  # `python backend/scripts/setup_wwi_db.py` once to restore it.
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - 1433:1433
+    volumes:
+      - ./backend/db:/var/opt/mssql/backup:ro
+      - mssql-data:/var/opt/mssql
+    networks:
+      - app-network
+
+  caddy:
+    image: caddy:2.0.0
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mssql-data:

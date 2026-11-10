@@ -1,0 +1,30 @@
+/* Styles for chat bubbles */
+.bubble {
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.user-bubble {
+  min-width: 60px;
+  max-width: 100%;
+  background-color: #4682B4;
+  color: white;
+}
+  
+.bot-bubble {
+  min-width: 130px;
+  width: 80%;
+  background-color: #e5e5ea;
+  color: black;
+}
+
+.process-bubble {
+  max-width: 250px;
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #4682B4;
+  font-weight: 500;
+}

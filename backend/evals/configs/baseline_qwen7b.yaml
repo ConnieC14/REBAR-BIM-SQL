@@ -1,0 +1,18 @@
+# Baseline pipeline on the free local model (Ollama must be running:
+#   ~/.local/ollama/bin/ollama serve &)
+name: baseline_qwen7b
+pipeline: baseline
+llm:
+  provider: ollama
+  model: qwen2.5-coder:7b
+  effort: null
+embeddings: local
+metadata_source: db
+limits:
+  max_steps: 6
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3            # local runs are free, so measure run-to-run variance
+suites: [wwi_dev, safety, extraction]
+budget_usd: 5.00      # hard stop; local runs cost $0
+judge: null
