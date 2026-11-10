@@ -1,0 +1,45 @@
+name: bim_static_search_haiku
+pipeline: baseline
+retrieval: static_search
+database: db/vim_samples/Snowdon.r2027.db
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db
+chroma_path: ./chroma_db_snowdon
+llm:
+  provider: anthropic
+  model: claude-haiku-5-5
+  effort: null
+embeddings: local
+metadata_source: files
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites:
+- bim_snowdon
+- safety_bim
+budget_usd: 2.5
+judge: null
+_meta:
+  started: 2026-11-04T20-22-23
+  args:
+    config: evals/configs/bim_static_search_haiku.yaml
+    limit: null
+    ids: null
+    suites: null
+    repeats: null
+  packages:
+    anthropic: 2.3.0
+    langchain: 0.3.14
+    langchain-openai: 0.2.14
+    chromadb: 0.6.1
+    SQLAlchemy: 2.1.6
+    pymssql: 2.4.6
+    sentence-transformers: 3.3.1
+  planned_runs: 360
+  completed_runs: 360
+  budget_stopped: false
+  total_cost_usd: 0.8426
+  finished: 2026-11-04T21-27-01
