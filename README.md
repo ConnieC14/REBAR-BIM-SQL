@@ -128,6 +128,6 @@ a model.
 
 ## Credits
 
-- Original P03 VIM chat project team: pipeline, prompts, annotation files and few-shot examples.
+- Original VIM project team: pipeline, prompts, annotation files and few-shot examples.
 - Snowdon Towers sample model: Autodesk, VIM conversion by VIM AEC.
 - Methods drawn on: BIRD (Li et al., 2023, arXiv:2305.03111) and MAC-SQL (Wang et al., 2025, arXiv:2312.11242).
