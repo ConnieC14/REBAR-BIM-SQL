@@ -18,6 +18,7 @@ import os
 import re
 import time
 from dotenv import load_dotenv
+from agents import safety, variants
 from agents.agents import execute_query_response, create_sql_generator_agent
 from agents.db_utils import extract_schema_info_from_db
 from agents.retrieval import make_retriever, make_schema_tools, strategy, MAX_TABLES
@@ -193,6 +194,71 @@ def agentic_tools(schema_tools, sql_agent, engine, schema_data):
     return tools
 
 
+def agentic_tool_functions(schema_tools, sql_agent, engine, schema_data) -> list:
+    """
+    agentic_search / agentic_values tools as plain functions with typed arguments.
+    The docstrings are the tool descriptions, for Claude's tool runner and for
+    LangChain tool calling (+tools).
+    """
+    def search_schema(phrase: str) -> str:
+        """Finds tables and columns whose descriptions match a phrase.
+
+        Args:
+            phrase: What to look for, e.g. "room area" or "door fire rating".
+        """
+        return traced("search_schema", schema_tools.search)(phrase)
+
+    def describe_table(table: str) -> str:
+        """Lists a table's columns with descriptions and its links to other tables.
+
+        Args:
+            table: The table name.
+        """
+        return traced("describe_table", schema_tools.describe)(table)
+
+    def find_join_path(table_a: str, table_b: str) -> str:
+        """Shows how two tables join through foreign keys, with the join condition for each hop.
+
+        Args:
+            table_a: The first table name.
+            table_b: The second table name.
+        """
+        return traced("find_join_path", schema_tools.join_path)(table_a, table_b)
+
+    def find_values(phrase: str) -> str:
+        """Finds stored values (names, numbers, labels) containing the words of a phrase, with the table and column holding each.
+
+        Args:
+            phrase: The value to look for, e.g. "L2" or "storage".
+        """
+        return traced("find_values", schema_tools.find_values)(phrase)
+
+    def sql_generator(question: str, tables: list[str]) -> str:
+        """Generates a SQL query for the question using only the listed tables, runs it against the database and returns the query and its result.
+
+        Args:
+            question: The user's question about the database, with any extra detail needed.
+            tables: Every table the query needs, including the ones that join them.
+        """
+        return traced("sql_generator",
+                      lambda q, t: agentic_sql(q, t, schema_tools, sql_agent,
+                                               engine, schema_data))(question, tables)
+
+    tools = [search_schema, describe_table, find_join_path, sql_generator]
+    if schema_tools.value_index is not None:
+        tools.insert(3, find_values)
+    return tools
+
+
+def orchestrator_prompt(schema_tools) -> str:
+    """
+    The orchestrator's instructions for the retrieval strategy.
+    """
+    if schema_tools is None:
+        return ORCHESTRATOR_PROMPT
+    return VALUES_PROMPT if schema_tools.value_index is not None else AGENTIC_PROMPT
+
+
 class ClaudeAgentPipeline:
     """
     Orchestrator agent on Claude. Same interface as the LangChain agent:
@@ -202,64 +268,14 @@ class ClaudeAgentPipeline:
     def __init__(self, retrieve, sql_agent, engine, schema_data, verbose=True, schema_tools=None):
         from anthropic import beta_tool
         self.verbose = verbose and agent_verbose()
-        self.system = ORCHESTRATOR_PROMPT
+        self.system = orchestrator_prompt(schema_tools)
+        # +notes and +safety rules are fixed when the pipeline is built, so pipelines with
+        # different settings can share one process (the app's compare mode)
+        self.rules = variants.notes_block() + (safety.ORCHESTRATOR_RULES if safety.rules_enabled() else "")
 
         if schema_tools is not None:
-            self.system = AGENTIC_PROMPT
-
-            @beta_tool
-            def search_schema(phrase: str) -> str:
-                """Finds tables and columns whose descriptions match a phrase.
-
-                Args:
-                    phrase: What to look for, e.g. "room area" or "door fire rating".
-                """
-                return traced("search_schema", schema_tools.search)(phrase)
-
-            @beta_tool
-            def describe_table(table: str) -> str:
-                """Lists a table's columns with descriptions and its links to other tables.
-
-                Args:
-                    table: The table name.
-                """
-                return traced("describe_table", schema_tools.describe)(table)
-
-            @beta_tool
-            def find_join_path(table_a: str, table_b: str) -> str:
-                """Shows how two tables join through foreign keys, with the join condition for each hop.
-
-                Args:
-                    table_a: The first table name.
-                    table_b: The second table name.
-                """
-                return traced("find_join_path", schema_tools.join_path)(table_a, table_b)
-
-            @beta_tool
-            def find_values(phrase: str) -> str:
-                """Finds stored values (names, numbers, labels) containing the words of a phrase, with the table and column holding each.
-
-                Args:
-                    phrase: The value to look for, e.g. "L2" or "storage".
-                """
-                return traced("find_values", schema_tools.find_values)(phrase)
-
-            @beta_tool
-            def sql_generator(question: str, tables: list[str]) -> str:
-                """Generates a SQL query for the question using only the listed tables, runs it against the database and returns the query and its result.
-
-                Args:
-                    question: The user's question about the database, with any extra detail needed.
-                    tables: Every table the query needs, including the ones that join them.
-                """
-                return traced("sql_generator",
-                              lambda q, t: agentic_sql(q, t, schema_tools, sql_agent,
-                                                       engine, schema_data))(question, tables)
-
-            self.tools = [search_schema, describe_table, find_join_path, sql_generator]
-            if schema_tools.value_index is not None:
-                self.system = VALUES_PROMPT
-                self.tools.insert(3, find_values)
+            self.tools = [beta_tool(f) for f in
+                          agentic_tool_functions(schema_tools, sql_agent, engine, schema_data)]
             return
 
         @beta_tool
@@ -288,7 +304,7 @@ class ClaudeAgentPipeline:
         runner = get_anthropic_client().beta.messages.tool_runner(
             model=get_model(),
             max_tokens=16000,
-            system=self.system,
+            system=self.system + self.rules,
             tools=self.tools,
             messages=[{"role": "user", "content": inputs["input"]}],
             max_iterations=max_steps(),
@@ -334,6 +350,17 @@ def build_pipeline(collection, engine):
         return ClaudeAgentPipeline(retrieve, sql_agent, engine, schema_data, schema_tools=schema_tools)
 
     from langchain.agents import initialize_agent
+    from langchain.agents.mrkl.prompt import PREFIX
+
+    # +notes and +safety rules, fixed when the pipeline is built
+    rules = variants.notes_block() + (safety.ORCHESTRATOR_RULES if safety.rules_enabled() else "")
+
+    if variants.tool_calling_enabled():
+        if not agentic:
+            raise ValueError("+tools is built for agentic_search / agentic_values only.")
+        return tool_calling_agent(get_openai_chat_model(),
+                                  agentic_tool_functions(schema_tools, sql_agent, engine, schema_data),
+                                  orchestrator_prompt(schema_tools) + rules)
 
     if agentic:
         tools = agentic_tools(schema_tools, sql_agent, engine, schema_data)
@@ -354,10 +381,77 @@ def build_pipeline(collection, engine):
         # Small local models sometimes break the ReAct text format
         handle_parsing_errors=True,
         max_iterations=max_steps(),
+        # The ReAct agent has no system prompt: +notes / +safety put their text before
+        # LangChain's default prefix
+        **({"agent_kwargs": {"prefix": rules.strip() + "\n\n" + PREFIX}} if rules else {}),
     )
 
     # Create AgentExecutor
     return agent
+
+
+def tool_calling_agent(llm, functions, system: str):
+    """
+    +tools: a LangChain agent that uses the model's own tool calling (Ollama's
+    OpenAI-compatible API) instead of the ReAct text format. Same tools and
+    instructions as the Claude orchestrator; returns the same "iteration limit"
+    message when it runs out of steps.
+    """
+    from langchain.agents import AgentExecutor
+    from langchain.agents.format_scratchpad.tools import format_to_tool_messages
+    from langchain.agents.output_parsers.tools import ToolsAgentOutputParser
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.runnables import RunnableLambda, RunnablePassthrough
+    from langchain_core.tools import StructuredTool
+
+    tools = [StructuredTool.from_function(f, parse_docstring=True) for f in functions]
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", system.replace("{", "{{").replace("}", "}}")),
+        ("human", "{input}"),
+        ("placeholder", "{agent_scratchpad}"),
+    ])
+    names = {t.name for t in tools}
+    # As create_tool_calling_agent, plus read_text_tool_calls after the model
+    agent = (RunnablePassthrough.assign(
+                 agent_scratchpad=lambda x: format_to_tool_messages(x["intermediate_steps"]))
+             | prompt | llm.bind_tools(tools)
+             | RunnableLambda(lambda message: read_text_tool_calls(message, names))
+             | ToolsAgentOutputParser())
+    executor = AgentExecutor(agent=agent, tools=tools,
+                             max_iterations=max_steps(), handle_parsing_errors=True,
+                             verbose=agent_verbose())
+    # The step-limit message the ReAct agent and ClaudeAgentPipeline give (the runner looks for it)
+    return executor | RunnableLambda(lambda result: {
+        **result, "output": "Agent stopped due to iteration limit or time limit."
+        if result["output"] == "Agent stopped due to max iterations." else result["output"]})
+
+
+def read_text_tool_calls(message, names: set):
+    """
+    qwen2.5-coder 7B writes its tool calls as bare JSON text, without the
+    <tool_call> tags its Ollama template asks for, so Ollama returns them as
+    text. A reply that is only such calls (to known tools) becomes tool calls;
+    any other reply is the final answer, unchanged.
+    """
+    import json
+    from langchain_core.messages import AIMessage
+    if message.tool_calls or not isinstance(message.content, str):
+        return message
+    text = re.sub(r"</?tool_call>|```(?:json)?", "", message.content).strip()
+    try:
+        parsed = json.loads(text)
+        calls = parsed if isinstance(parsed, list) else [parsed]
+    except json.JSONDecodeError:
+        try:   # one call per line
+            calls = [json.loads(line) for line in text.splitlines() if line.strip()]
+        except json.JSONDecodeError:
+            return message
+    if not calls or not all(isinstance(c, dict) and c.get("name") in names
+                            and isinstance(c.get("arguments"), dict) for c in calls):
+        return message
+    return AIMessage(content="", tool_calls=[
+        {"name": c["name"], "args": c["arguments"], "id": f"call_{i}", "type": "tool_call"}
+        for i, c in enumerate(calls)], usage_metadata=message.usage_metadata)
 
 
 def main():

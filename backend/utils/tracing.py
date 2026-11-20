@@ -1,10 +1,5 @@
 """
-Lightweight tracing for agent runs.
-
-Pipeline code calls record(...) at the points worth measuring (LLM calls,
-tool calls, SQL execution). Outside an active trace, record() does nothing,
-so the app behaves exactly as before. The evaluation harness opens a trace
-per question with start_trace() and saves its events.
+Tracing for agent runs. record() does nothing outside start_trace().
 """
 import time
 import contextvars

@@ -1,24 +1,6 @@
 """
-Retrieval strategies for the SQL generator, chosen with the RETRIEVAL
-environment variable (the run config's `retrieval`). Only retrieval differs
-between them; the prompts, model and orchestrator stay the same.
-
-    baseline        the original P03 retrieval: an LLM router picks the table
-                    or the column index, top 5
-    static_search   both indexes searched with descriptions, then joined
-                    through foreign keys
-    agentic_search  the orchestrator explores the schema with tools (search,
-                    describe a table, find a join path) and names the tables
-                    the SQL generator gets
-    agentic_values  agentic_search plus a value lookup: the stored text values
-                    (names, numbers, labels) that match a phrase, with the
-                    table and column holding them
-    oracle          the tables the gold query uses, with all their columns
-                    (upper bound)
-
-static_search, agentic_search and oracle share one context format (table,
-description, all columns with descriptions), so comparing them isolates which
-tables were found.
+Retrieval strategies for the SQL generator, chosen with RETRIEVAL:
+baseline, static_search, agentic_search, agentic_values or oracle.
 """
 import os
 import re
@@ -220,9 +202,7 @@ class ValueIndex:
 
 class SchemaTools:
     """
-    agentic_search: what the orchestrator's schema tools return. The tables it
-    names for the SQL generator are recorded as the retrieval.
-    agentic_values adds find_values (values=True).
+    The orchestrator's schema tools (find_values only with values=True).
     """
 
     def __init__(self, db_manager, catalog, engine=None, values=False):

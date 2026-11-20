@@ -17,6 +17,7 @@ import pandas as pd
 from sqlalchemy import text
 from langchain.prompts import PromptTemplate
 from agents.ex_sql_few_shot import create_few_shot_examples
+from agents import safety, variants
 from configs.llm_config import complete
 from utils.tracing import record
 
@@ -108,7 +109,7 @@ def create_sql_generator_agent(collection, dialect="mssql"):
     The schema includes the table names, column names, and descriptions.
     Use table and column names exactly as they appear in the schema.
     Always generate valid SQL syntax, including correct SQL keywords and operators.
-    Return only the SQL query, with no explanation and no markdown formatting.
+    Return only the SQL query, with no explanation and no markdown formatting.{safety_rule}{few_shot}{notes}
     Below is some information on the database as well as the user's request:
     Schema: {schema}
     User Query: {user_query}
@@ -122,15 +123,39 @@ def create_sql_generator_agent(collection, dialect="mssql"):
     #     all cases and you will need to determine which tables to join and how to join them
     #     based on the user's input. Here are the SQL examples:
     #     {few_shot_sql_examples}"
+    # +fewshot uses two fixed examples (agents/variants.py), not this random sample
     few_shot_samples = create_few_shot_examples()
+    # Variants are fixed when the pipeline is built (see agents/variants.py)
+    settings = {"dialect": SQL_DIALECTS.get(dialect, dialect),
+                "safety_rule": f"\n    {safety.SQL_WRITER_RULE}" if safety.rules_enabled() else "",
+                "few_shot": variants.few_shot_block(), "notes": variants.notes_block()}
     prompt = PromptTemplate(input_variables=["schema", "user_query"],
-                            template=prompt_template).partial(
-                                dialect=SQL_DIALECTS.get(dialect, dialect))
+                            template=prompt_template).partial(**settings)
+    refine_prompt = PromptTemplate(input_variables=["schema", "user_query", "previous_sql", "problem"],
+                                   template=variants.REFINE_TEMPLATE).partial(**settings)
 
     def sql_agent(inputs):
+        if "previous_sql" in inputs:
+            return strip_sql_fences(complete(refine_prompt.format(**inputs), purpose="sql_refiner"))
         return strip_sql_fences(complete(prompt.format(**inputs),
                                          purpose="sql_generator"))
+    sql_agent.refine_attempts = variants.REFINE_ATTEMPTS if variants.refine_enabled() else 0
     return sql_agent
+
+
+def refine_problem(sql_query: str, result, dialect: str):
+    """
+    +refine: what went wrong with a query, for the SQL writer to fix (None if
+    nothing to fix). Writes are never rewritten.
+    """
+    if safety.guard(sql_query, dialect):
+        return None
+    if isinstance(result, list):
+        return None if result else variants.REFINE_PROBLEMS["empty"]
+    if isinstance(result, str) and result.startswith("Error executing query"):
+        error = result.removeprefix("Error executing query:").strip().split("\n")[0][:500]
+        return variants.REFINE_PROBLEMS["error"].format(error=error)
+    return None
 
 
 def strip_sql_fences(sql: str) -> str:
@@ -189,6 +214,12 @@ def execute_sql_query(query: str, engine):
     Validate and execute the SQL query against the database.
     """
     started = time.time()
+    blocked = safety.guard(query, engine.dialect.name) if safety.guard_enabled() else None
+    if blocked:
+        # Recorded like any failed query, so the scorer still counts the write attempt
+        record("sql", sql=query, ok=False, error=blocked, error_code=None, blocked=True,
+               latency_ms=round((time.time() - started) * 1000))
+        return f"Error executing query: {blocked}"
     try:
         # Connect to SQL DB to query it
         with engine.connect() as connection:
@@ -245,6 +276,14 @@ def execute_query_response(query: str, retrieve, sql_agent, engine, schema_data)
 
     # Execute the SQL query here using the Execution Agent
     execution_result = execution_agent(sql_query, engine)
+
+    # +refine: a failed or empty query goes back to the SQL writer with the problem
+    for _ in range(getattr(sql_agent, "refine_attempts", 0)):
+        problem = refine_problem(sql_query, execution_result.get("result"), engine.dialect.name)
+        if not problem:
+            break
+        sql_query = sql_agent({**inputs, "previous_sql": sql_query, "problem": problem})
+        execution_result = execution_agent(sql_query, engine)
 
     # Format the result using the Result Formatting Agent
     if execution_result["status"] == "success":
