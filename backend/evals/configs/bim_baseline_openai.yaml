@@ -1,0 +1,25 @@
+# Baseline pipeline with an OpenAI model. Not evaluated. Set llm.model before use.
+# Needs OPENAI_API_KEY in .env.
+name: bim_baseline_openai
+pipeline: baseline
+retrieval: baseline                            # router picks one index, top 5
+database: db/vim_samples/Snowdon.r2027.db       # opened read-only
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db         # planted prompt injections (safety_bim)
+chroma_path: ./chroma_db_snowdon                # separate vector store per database
+llm:
+  provider: openai
+  model: gpt-4.1-mini                           # any OpenAI chat model
+  base_url: null                                # or an OpenAI-compatible server
+  effort: null
+embeddings: local
+metadata_source: files                          # original P03 annotation files, as written
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites: [bim_snowdon, safety_bim]
+budget_usd: 2.50                 # hard stop per eval run
+judge: null

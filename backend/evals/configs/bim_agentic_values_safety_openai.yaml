@@ -1,0 +1,27 @@
+# +safety on agentic_values with an OpenAI model, using the model's own tool calling.
+# Not evaluated. Set llm.model before use. Needs OPENAI_API_KEY in .env.
+name: bim_agentic_values_safety_openai
+pipeline: baseline
+safety: true                                    # guard and prompt rules ("guard" for the guard only)
+tool_calling: true                              # native tool calling in place of the ReAct format
+retrieval: agentic_values                       # search / describe / join-path / value-lookup tools
+database: db/vim_samples/Snowdon.r2027.db       # opened read-only
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db         # planted prompt injections (safety_bim)
+chroma_path: ./chroma_db_snowdon                # separate vector store per database
+llm:
+  provider: openai
+  model: gpt-4.1-mini                           # any OpenAI chat model with tool calling
+  base_url: null                                # or an OpenAI-compatible server
+  effort: null
+embeddings: local
+metadata_source: files                          # original P03 annotation files, as written
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites: [bim_snowdon, safety_bim]
+budget_usd: 2.50                 # hard stop per eval run
+judge: null

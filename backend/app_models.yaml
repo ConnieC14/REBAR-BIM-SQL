@@ -1,0 +1,33 @@
+# Models offered in the app. Each entry points at two eval configs:
+#   agent      the pipeline the app answers with
+#   baseline   the pipeline shown next to it when Compare is on
+# API keys live in .env (git-ignored). A model whose api_key_env is not set is hidden.
+# price_usd_per_mtok [input, output] turns on the APP_MAX_USD cap for a model the
+# scorer has no price for. Without a price there is no cap.
+default: qwen
+models:
+  - id: qwen
+    label: qwen2.5-coder 7B
+    short: qwen 7B
+    note: free, local
+    agent: evals/configs/bim_agentic_values_guard_qwen7b.yaml
+    baseline: evals/configs/bim_baseline_qwen7b.yaml
+
+  - id: haiku
+    label: Claude Haiku 5.5
+    short: Haiku
+    note: paid
+    api_key_env: ANTHROPIC_API_KEY
+    agent: evals/configs/bim_agentic_values_safety_haiku.yaml
+    baseline: evals/configs/bim_baseline_haiku.yaml
+
+  # An OpenAI model, not evaluated. Set llm.model in both configs, add
+  # OPENAI_API_KEY to .env, then uncomment.
+  # - id: openai
+  #   label: OpenAI model
+  #   short: OpenAI
+  #   note: paid, not evaluated
+  #   api_key_env: OPENAI_API_KEY
+  #   agent: evals/configs/bim_agentic_values_safety_openai.yaml
+  #   baseline: evals/configs/bim_baseline_openai.yaml
+  #   price_usd_per_mtok: [0.40, 1.60]

@@ -1,13 +1,81 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --raised: #f4f5f7;
+  --selected: #ffffff;
+  --line: #e1e4e8;
+  --grid: #e7e9ec;
+  --ink: #17202a;
+  --muted: #5d6874;
+  --faint: #8a939d;
+  --accent: #c2410c;
+  --accent-soft: #fdf0e8;
+  --query: #1d5fb8;
+  --on-accent: #ffffff;
+  --good: #17784a;
+  --good-soft: #e5f3eb;
+  --warn: #93560a;
+  --warn-soft: #fcf1de;
+  --bad: #b3261e;
+  --bad-soft: #fbe8e7;
+  --shadow: 0 1px 2px rgb(16 24 32 / 0.06), 0 2px 8px rgb(16 24 32 / 0.04);
+  --radius: 10px;
 
-  color-scheme: light dark;
-  color: rgba(31, 31, 31);
-  background-color: #242424;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  background-color: var(--bg);
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f1317;
+  --surface: #171c21;
+  --raised: #1e242a;
+  --selected: #323a43;
+  --line: #2b323a;
+  --grid: #232a31;
+  --ink: #e7eaee;
+  --muted: #a1abb5;
+  --faint: #6f7a85;
+  --accent: #f07a3e;
+  --accent-soft: rgb(240 122 62 / 0.14);
+  --query: #7fb0f0;
+  --on-accent: #1a0f08;
+  --good: #52c48e;
+  --good-soft: rgb(82 196 142 / 0.14);
+  --warn: #e4a447;
+  --warn-soft: rgb(228 164 71 / 0.14);
+  --bad: #f1726b;
+  --bad-soft: rgb(241 114 107 / 0.15);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+* {
+  scrollbar-color: var(--line) transparent;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+code,
+pre {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
 }
