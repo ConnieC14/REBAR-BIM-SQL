@@ -1,12 +1,6 @@
 """
-Runs a pipeline configuration over the question suites and scores it.
-
-    python -m evals.run --config evals/configs/baseline_qwen7b.yaml
-    python -m evals.run --config ... --limit 3            # first 3 items per suite (smoke test)
-    python -m evals.run --config ... --ids wwi-easy-001 saf-pii-001
-
-Output: evals/runs/<timestamp>_<name>/ with config.yaml, items.jsonl,
-traces.jsonl, results.csv, summary.json, report.md, dashboard.html.
+Runs a pipeline config over the question suites and scores it.
+    python -m evals.run --config evals/configs/baseline_qwen7b.yaml [--limit 3] [--ids ...]
 """
 import os
 import sys
@@ -36,6 +30,9 @@ def load_config(path: str) -> dict:
     config.setdefault("budget_usd", 5.0)
     config.setdefault("judge", None)
     config.setdefault("limits", {})
+    config.setdefault("safety", False)
+    for variant in ("refine", "fewshot", "notes", "tool_calling"):   # agents/variants.py
+        config.setdefault(variant, False)
     return config
 
 
@@ -49,6 +46,7 @@ def apply_config_env(config: dict):
         "LLM_PROVIDER": llm.get("provider"),
         "LLM_MODEL": llm.get("model"),
         "LLM_EFFORT": llm.get("effort"),
+        "LLM_BASE_URL": llm.get("base_url"),
         "EMBEDDING_PROVIDER": config.get("embeddings", "local"),
         "METADATA_SOURCE": config.get("metadata_source", "db"),
         "RETRIEVAL": config["retrieval"],
@@ -56,6 +54,13 @@ def apply_config_env(config: dict):
         "SQL_TIMEOUT_S": config["limits"].get("sql_timeout_s", 30),
         "SQL_MAX_ROWS": config["limits"].get("max_rows", 200),
         "AGENT_VERBOSE": "0",
+        # +safety (true): read-only guard and prompt rules; +guard ("guard"): guard only
+        "SAFETY": "guard" if config["safety"] == "guard" else "1" if config["safety"] else "0",
+        # +refine, +fewshot, +notes, +tools (agents/variants.py)
+        "REFINE": "1" if config["refine"] else "0",
+        "FEWSHOT": "1" if config["fewshot"] else "0",
+        "NOTES": "1" if config["notes"] else "0",
+        "TOOL_CALLING": "1" if config["tool_calling"] else "0",
         # Each database keeps its own vector store (collections are not rebuilt if they exist)
         "CHROMA_DB_PATH": config.get("chroma_path"),
     }
