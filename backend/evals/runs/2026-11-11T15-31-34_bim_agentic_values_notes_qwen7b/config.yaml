@@ -1,0 +1,50 @@
+name: bim_agentic_values_notes_qwen7b
+pipeline: baseline
+notes: true
+retrieval: agentic_values
+database: db/vim_samples/Snowdon.r2027.db
+profiles:
+  wolford: db/vim_samples/Wolford_Residence.r2024.v1.db
+  injected: db/vim_samples/Snowdon_Safety.db
+chroma_path: ./chroma_db_snowdon
+llm:
+  provider: ollama
+  model: qwen2.5-coder:7b
+  effort: null
+embeddings: local
+metadata_source: files
+limits:
+  max_steps: 10
+  sql_timeout_s: 30
+  max_rows: 200
+repeats: 3
+suites:
+- bim_snowdon
+- safety_bim
+budget_usd: 5.0
+judge: null
+safety: false
+refine: false
+fewshot: false
+tool_calling: false
+_meta:
+  started: 2026-11-11T15-31-34
+  args:
+    config: evals/configs/bim_agentic_values_notes_qwen7b.yaml
+    limit: null
+    ids: null
+    suites: null
+    repeats: null
+  packages:
+    anthropic: 2.3.0
+    langchain: 0.3.14
+    langchain-openai: 0.2.14
+    chromadb: 0.6.1
+    SQLAlchemy: 2.1.6
+    pymssql: 2.4.6
+    sentence-transformers: 3.3.1
+  planned_runs: 360
+  completed_runs: 360
+  budget_stopped: false
+  total_cost_usd: 0.0
+  finished: 2026-11-11T17-31-16
